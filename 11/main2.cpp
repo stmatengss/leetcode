@@ -11,34 +11,29 @@ using namespace std;
 
 class Solution {
 private:
-	char pre[4] = {'(', '{', '['};
-	map<char, char> mp;
-	bool ispre(char c){
-		for (int i = 0; i < 3; i++) {
-			if (c == pre[i]) {
-				return true;
-			}
-		}
-		return false;
-	}
+	int mp[256];
 public:
 	Solution() {
-		mp[')'] = '(';
-		mp['}'] = '{';
-		mp[']'] = '[';
+		mp[')'] = 3;
+		mp['}'] = 4;
+		mp[']'] = 5;
+		mp['('] = 0;
+		mp['{'] = 1;
+		mp['['] = 2;
 	}
     bool isValid(string s) {
-    	stack<char> st;
+    	stack<int> st;
 		for (char i:s) {
-    		if (ispre(i)) {
-    			st.push(i);
+			int flag = mp[i];
+    		if (flag < 3) {
+    			st.push(flag);
 			} else {
 				if (st.empty()) {
 					return false;
 				}
-				char p = st.top();
+				int p = st.top();
 				st.pop();
-				if (mp[i] != p) {
+				if (flag != p+3) {
 					return false;
 				}
 			}
@@ -52,7 +47,7 @@ public:
 
 void test(){
 	Solution t = Solution();
-	cout<<t.isValid("()[]{")<<endl;
+	cout<<t.isValid("()[]{}")<<endl;
 }
 
 int main(){
