@@ -32,12 +32,7 @@ public:
     }
 };
 
-void print() {
-	while (res!=NULL) {
-		cout<<res->val<<endl;
-		res = res->next;
-	}
-}
+
 
 void test(){
 	Solution t = Solution();
