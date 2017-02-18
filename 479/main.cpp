@@ -9,46 +9,79 @@
 #include <algorithm>
 #include <vector>
 #include <map>
+#include <cmath>
+
+// 9 9
+// 6006 658
+// 698896 982
+// 28233282 1190
+// 2704884072 709
+// 637832238736 1127
+// 27237788773272 350
+// 4099923883299904 765
 
 using namespace std;
 
 class Solution {
 public:
-    typedef unsigned int uint;
     typedef long long ll;
-    double myPow(double x, int n) {
-        if (x == 1.000) {
-            return 1.0;
+
+    const int a[10] = {9, 987, 123, 597, 677, 1218, 877, 475};
+    inline bool isPa(ll num) {
+        string s = "";
+        while(num) {
+            s += num % 10;
+            num /= 10;
         }
-        if (x == 0.000) {
-            return 0.0;
-        }
-        double res = 1.0;
-        ll m;
-        if (n > 0) {
-            m = (ll)n;
-        } else {
-            m = -(ll)n;
-            x = 1.0 / x;
-        }
-        while(m) {
-            if (m & 1) {
-                res *= x;
+        string ss = s;
+        reverse(s.begin(), s.end());
+        return ss == s;
+    }
+    void makeSolution() {
+        ll begin = 10;
+        for (int i = 1; i <= 5; i ++, begin *= 10 ) {
+            ll max_num = -1;
+            ll j = begin - 1;
+            ll k = begin - 1;
+
+            ll delta = ll(begin / 40);
+
+            for (j = begin - 1; j > begin - 1 - delta; j -- ) {
+                for (k = begin - 1; k > begin - 1 - delta; k -- ) {
+                    ll num = j * k;
+                    if (isPa(num)) {
+                        max_num = max(max_num, num);
+                    } 
+                }
             }
-            x = x * x;
-            m >>= 1;
+
+            // while (j) {
+            //     ll num1 = (j - 1) * (k);
+            //     ll num2 = (j) * (k - 1);
+            //     if (num1 > num2) {
+            //         if (isPa(num1)) {
+            //             max_num = max(max_num, num1);
+            //         }  
+            //         j--;
+            //     } else {
+            //         if (isPa(num2)) {
+            //             max_num = max(max_num, num2);
+            //         }  
+            //         k--;
+            //     }
+            // }
+            cout << max_num << " " << max_num % 1337 <<endl;
         }
-        return res;
+    }
+    int largestPalindrome(int n) {
+        return a[n-1];
     }
 };
 
 void test() {
 	Solution t = Solution();
-    cout << t.myPow(3, 2) << endl;
-    cout << t.myPow(4, 4) << endl;
-    cout << t.myPow(2, 0) << endl;
-    cout << t.myPow(2, -2) << endl;
-    cout << t.myPow(2, -2147483648) << endl;
+    t.makeSolution();
+    cout << t.largestPalindrome(1) <<endl;
 }
 
 int main() {
